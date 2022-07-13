@@ -35,6 +35,8 @@ export const defaultTheme = {
     xl: '1.25rem',
     /** 1.5rem: 24px */
     xxl: '1.5rem',
+    /** 2rem: 32px */
+    xxxl: '2rem',
   },
   fontWeights: {
     /** 400 */
