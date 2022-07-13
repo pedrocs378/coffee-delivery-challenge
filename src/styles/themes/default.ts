@@ -44,4 +44,7 @@ export const defaultTheme = {
     /** 800 */
     extraBold: 800,
   },
+  borderRadius: {
+    default: '6px',
+  },
 }
