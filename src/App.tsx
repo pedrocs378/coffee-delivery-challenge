@@ -8,6 +8,8 @@ import { Router } from './Router'
 
 import { client } from './lib/apollo'
 
+import { CartProvider } from './contexts/CartContext'
+
 import { defaultTheme } from './styles/themes/default'
 import { GlobalStyle } from './styles/global'
 
@@ -18,11 +20,13 @@ function App() {
     <ThemeProvider theme={defaultTheme}>
       <ApolloProvider client={client}>
         <QueryClientProvider client={queryClient}>
-          <BrowserRouter>
-            <Router />
+          <CartProvider>
+            <BrowserRouter>
+              <Router />
 
-            <GlobalStyle />
-          </BrowserRouter>
+              <GlobalStyle />
+            </BrowserRouter>
+          </CartProvider>
 
           <ReactQueryDevtools />
         </QueryClientProvider>

@@ -1,5 +1,6 @@
+import { memo, useCallback, useState } from 'react'
 import { Minus, Plus, ShoppingCartSimple } from 'phosphor-react'
-import { useCallback, useState } from 'react'
+import lodash from 'lodash'
 
 import { CoffeeType } from '../../graphql/generated'
 
@@ -14,20 +15,17 @@ enum NormalizedCoffeeType {
 }
 
 type CoffeeCardProps = {
-  name: string
-  description?: string
-  types: CoffeeType[]
-  imageUrl?: string
-  price: string
+  coffee: {
+    name: string
+    description?: string
+    types: CoffeeType[]
+    imageUrl?: string
+    formattedPrice: string
+  }
+  onAddToCardClick?: (amount: number) => void
 }
 
-export function CoffeeCard({
-  name,
-  description,
-  types,
-  imageUrl,
-  price,
-}: CoffeeCardProps) {
+function CoffeeCardComponent({ coffee, onAddToCardClick }: CoffeeCardProps) {
   const [coffeeAmount, setCoffeeAmount] = useState(1)
 
   const handleChangeCoffeeAmount = useCallback(
@@ -45,12 +43,20 @@ export function CoffeeCard({
     [],
   )
 
+  const handleClickAddCoffeeToCart = () => {
+    if (onAddToCardClick) {
+      onAddToCardClick(coffeeAmount)
+
+      setCoffeeAmount(1)
+    }
+  }
+
   return (
     <S.CoffeeCardContainer>
-      {imageUrl && <img src={imageUrl} alt={name} />}
+      {coffee.imageUrl && <img src={coffee.imageUrl} alt={coffee.name} />}
 
       <S.CoffeeTypesList>
-        {types.map((coffeeType) => {
+        {coffee.types.map((coffeeType) => {
           return (
             <S.TypeBadge key={coffeeType}>
               {NormalizedCoffeeType[coffeeType]}
@@ -59,12 +65,12 @@ export function CoffeeCard({
         })}
       </S.CoffeeTypesList>
 
-      <strong>{name}</strong>
-      <p>{description}</p>
+      <strong>{coffee.name}</strong>
+      <p>{coffee.description}</p>
 
       <S.CardFooter>
         <S.CoffeePrice>
-          <span>R$</span> {price}
+          <span>R$</span> {coffee.formattedPrice}
         </S.CoffeePrice>
 
         <div>
@@ -86,7 +92,11 @@ export function CoffeeCard({
             </button>
           </S.CoffeeQuantityContainer>
 
-          <S.AddCartButton type="button" title="Adicionar ao carrinho">
+          <S.AddCartButton
+            type="button"
+            title="Adicionar ao carrinho"
+            onClick={handleClickAddCoffeeToCart}
+          >
             <ShoppingCartSimple size={22} weight="fill" />
           </S.AddCartButton>
         </div>
@@ -94,3 +104,7 @@ export function CoffeeCard({
     </S.CoffeeCardContainer>
   )
 }
+
+export const CoffeeCard = memo(CoffeeCardComponent, (prevProps, nextProps) => {
+  return lodash.isEqual(prevProps.coffee, nextProps.coffee)
+})

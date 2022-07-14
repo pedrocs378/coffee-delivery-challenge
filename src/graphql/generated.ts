@@ -704,7 +704,7 @@ export type Coffee = Node & {
   /** User that last published this document */
   publishedBy?: Maybe<User>;
   scheduledIn: Array<ScheduledOperation>;
-  slug?: Maybe<Scalars['String']>;
+  slug: Scalars['String'];
   /** System stage field */
   stage: Stage;
   types: Array<CoffeeType>;
@@ -782,7 +782,7 @@ export type CoffeeCreateInput = {
   image?: InputMaybe<AssetCreateOneInlineInput>;
   name: Scalars['String'];
   price: Scalars['Float'];
-  slug?: InputMaybe<Scalars['String']>;
+  slug: Scalars['String'];
   types?: InputMaybe<Array<CoffeeType>>;
   updatedAt?: InputMaybe<Scalars['DateTime']>;
 };
@@ -3524,7 +3524,7 @@ export enum _SystemDateTimeFieldVariation {
 export type CoffeesQueryVariables = Exact<{ [key: string]: never; }>;
 
 
-export type CoffeesQuery = { __typename?: 'Query', coffees: Array<{ __typename?: 'Coffee', slug?: string | null, name: string, description?: string | null, price: number, types: Array<CoffeeType>, image?: { __typename?: 'Asset', url: string } | null }> };
+export type CoffeesQuery = { __typename?: 'Query', coffees: Array<{ __typename?: 'Coffee', slug: string, name: string, description?: string | null, price: number, types: Array<CoffeeType>, image?: { __typename?: 'Asset', url: string } | null }> };
 
 
 export const CoffeesDocument = gql`

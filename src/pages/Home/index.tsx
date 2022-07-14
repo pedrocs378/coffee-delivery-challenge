@@ -1,9 +1,11 @@
-import { useMemo } from 'react'
+import { useCallback, useMemo } from 'react'
 import { Coffee, Package, ShoppingCart, Timer } from 'phosphor-react'
 
-import { CoffeeCard } from '../../components/CoffeeCard'
+import { useCart } from '../../contexts/CartContext'
 
 import { useCoffeesQuery } from '../../graphql/generated'
+
+import { CoffeeCard } from '../../components/CoffeeCard'
 
 import coffee from '../../assets/coffee.png'
 
@@ -11,6 +13,15 @@ import * as S from './styles'
 
 export function Home() {
   const { data } = useCoffeesQuery()
+
+  const { addNewItemToCart } = useCart()
+
+  const handleAddCoffeeToCart = useCallback(
+    (coffee: typeof coffees[0], amount: number) => {
+      addNewItemToCart(coffee, amount)
+    },
+    [addNewItemToCart],
+  )
 
   const coffees = useMemo(() => {
     if (!data?.coffees) return []
@@ -76,11 +87,14 @@ export function Home() {
             return (
               <CoffeeCard
                 key={coffee.slug}
-                name={coffee.name}
-                description={coffee.description ?? undefined}
-                types={coffee.types}
-                imageUrl={coffee.image?.url}
-                price={coffee.formattedPrice}
+                coffee={{
+                  ...coffee,
+                  imageUrl: coffee.image?.url,
+                  description: coffee.description ?? undefined,
+                }}
+                onAddToCardClick={(amount) =>
+                  handleAddCoffeeToCart(coffee, amount)
+                }
               />
             )
           })}
