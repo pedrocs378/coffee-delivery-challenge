@@ -1,5 +1,6 @@
 import { useCallback, useMemo } from 'react'
 import { Coffee, Package, ShoppingCart, Timer } from 'phosphor-react'
+import { toast } from 'react-hot-toast'
 
 import { useCart } from '../../contexts/CartContext'
 
@@ -19,6 +20,8 @@ export function Home() {
   const handleAddCoffeeToCart = useCallback(
     (coffee: typeof coffees[0], amount: number) => {
       addNewItemToCart(coffee, amount)
+
+      toast.success(`${amount}x ${coffee.name} adicionado`)
     },
     [addNewItemToCart],
   )

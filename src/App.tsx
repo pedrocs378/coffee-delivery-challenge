@@ -12,12 +12,15 @@ import { CartProvider } from './contexts/CartContext'
 
 import { defaultTheme } from './styles/themes/default'
 import { GlobalStyle } from './styles/global'
+import { Toaster } from 'react-hot-toast'
 
 const queryClient = new QueryClient()
 
 function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
+      <Toaster />
+
       <ApolloProvider client={client}>
         <QueryClientProvider client={queryClient}>
           <CartProvider>

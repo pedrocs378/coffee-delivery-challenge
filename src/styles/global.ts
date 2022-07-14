@@ -7,6 +7,11 @@ export const GlobalStyle = createGlobalStyle`
     box-sizing: border-box;
   }
 
+  :focus {
+    outline: 0;
+    box-shadow: 0 0 2px 2px ${({ theme }) => theme.colors['purple-500']};
+  }
+
   body {
     background-color: ${({ theme }) => theme.colors['gray-100']};
     color: ${({ theme }) => theme.colors['gray-700']};
