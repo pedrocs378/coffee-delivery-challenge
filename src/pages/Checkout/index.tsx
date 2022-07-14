@@ -10,7 +10,7 @@ export function Checkout() {
       <S.CompleteOrderSection>
         <strong>Complete seu pedido</strong>
 
-        <div>
+        <S.DeliveryAddressCard>
           <S.CardHeader>
             <MapPinLine size={22} color={defaultTheme.colors['yellow-700']} />
 
@@ -19,8 +19,8 @@ export function Checkout() {
               <p>Informe o endereço onde deseja receber seu pedido</p>
             </div>
           </S.CardHeader>
-        </div>
-        <div>
+        </S.DeliveryAddressCard>
+        <S.PaymentCard>
           <S.CardHeader>
             <CurrencyDollar
               size={22}
@@ -34,7 +34,7 @@ export function Checkout() {
               </p>
             </div>
           </S.CardHeader>
-        </div>
+        </S.PaymentCard>
       </S.CompleteOrderSection>
 
       <S.SelectedCoffeesSection>

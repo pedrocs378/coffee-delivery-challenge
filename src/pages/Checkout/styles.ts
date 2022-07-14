@@ -13,19 +13,15 @@ const BaseSection = styled.section`
     display: block;
     margin-bottom: 1rem;
   }
+`
 
-  > div {
-    padding: 2.5rem;
-    background-color: ${({ theme }) => theme.colors['gray-200']};
-  }
+const BaseCard = styled.div`
+  padding: 2.5rem;
+  background-color: ${({ theme }) => theme.colors['gray-200']};
 `
 
 export const CompleteOrderSection = styled(BaseSection)`
   flex: 1;
-
-  > div + div {
-    margin-top: 0.75rem;
-  }
 `
 
 export const SelectedCoffeesSection = styled(BaseSection)`
@@ -36,6 +32,17 @@ export const SelectedCoffeesSection = styled(BaseSection)`
     border-radius: ${({ theme }) =>
       `${theme.borderRadius.default} ${theme.borderRadius.xl}`};
   }
+`
+
+export const DeliveryAddressCard = styled(BaseCard)``
+
+export const PaymentCard = styled(BaseCard)`
+  margin-top: 0.75rem;
+`
+
+export const SelectedCoffeesCard = styled(BaseCard)`
+  display: flex;
+  flex-direction: column;
 `
 
 export const CardHeader = styled.header`
@@ -54,15 +61,10 @@ export const CardHeader = styled.header`
   }
 `
 
-export const SelectedCoffeesCard = styled.div`
-  display: flex;
-  flex-direction: column;
-`
-
 export const CartDetails = styled.div`
   display: flex;
   flex-direction: column;
-  gap: 0.75;
+  gap: 0.75rem;
 `
 
 type CartDefailtRowProps = {
