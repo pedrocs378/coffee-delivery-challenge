@@ -12,8 +12,6 @@ import * as S from './styles'
 export function Home() {
   const { data } = useCoffeesQuery()
 
-  console.log(data?.coffees)
-
   const coffees = useMemo(() => {
     if (!data?.coffees) return []
 

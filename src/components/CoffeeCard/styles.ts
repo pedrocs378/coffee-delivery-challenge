@@ -67,6 +67,12 @@ export const CardFooter = styled.footer`
   display: flex;
   align-items: center;
   justify-content: space-between;
+
+  > div {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
 `
 
 export const CoffeePrice = styled.span`
@@ -79,6 +85,32 @@ export const CoffeePrice = styled.span`
     font-family: 'Roboto', sans-serif;
     font-size: ${({ theme }) => theme.fontSizes.sm};
     font-weight: ${({ theme }) => theme.fontWeights.regular};
+  }
+`
+
+export const CoffeeQuantityContainer = styled.div`
+  background-color: ${({ theme }) => theme.colors['gray-400']};
+  border-radius: ${({ theme }) => theme.borderRadius.default};
+
+  padding: 0.75rem 0.5rem;
+  min-width: 4.5rem;
+
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 0.25rem;
+
+  span {
+    color: ${({ theme }) => theme.colors['gray-900']};
+    line-height: 1.3;
+  }
+
+  button {
+    border: 0;
+    font-size: 0;
+    background-color: transparent;
+
+    color: ${({ theme }) => theme.colors['purple-500']};
   }
 `
 

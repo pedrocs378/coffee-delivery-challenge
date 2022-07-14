@@ -1,4 +1,5 @@
-import { ShoppingCartSimple } from 'phosphor-react'
+import { Minus, Plus, ShoppingCartSimple } from 'phosphor-react'
+import { useCallback, useState } from 'react'
 
 import { CoffeeType } from '../../graphql/generated'
 
@@ -27,6 +28,23 @@ export function CoffeeCard({
   imageUrl,
   price,
 }: CoffeeCardProps) {
+  const [coffeeAmount, setCoffeeAmount] = useState(1)
+
+  const handleChangeCoffeeAmount = useCallback(
+    (operation: 'increase' | 'decrease') => {
+      if (operation === 'increase') {
+        setCoffeeAmount((amount) => amount + 1)
+      } else {
+        setCoffeeAmount((amount) => {
+          if (amount <= 1) return amount
+
+          return amount - 1
+        })
+      }
+    },
+    [],
+  )
+
   return (
     <S.CoffeeCardContainer>
       {imageUrl && <img src={imageUrl} alt={name} />}
@@ -49,9 +67,29 @@ export function CoffeeCard({
           <span>R$</span> {price}
         </S.CoffeePrice>
 
-        <S.AddCartButton type="button" title="Adicionar ao carrinho">
-          <ShoppingCartSimple size={22} weight="fill" />
-        </S.AddCartButton>
+        <div>
+          <S.CoffeeQuantityContainer>
+            <button
+              type="button"
+              title="Diminuir"
+              onClick={() => handleChangeCoffeeAmount('decrease')}
+            >
+              <Minus size={14} weight="bold" />
+            </button>
+            <span>{coffeeAmount}</span>
+            <button
+              type="button"
+              title="Aumentar"
+              onClick={() => handleChangeCoffeeAmount('increase')}
+            >
+              <Plus size={14} weight="bold" />
+            </button>
+          </S.CoffeeQuantityContainer>
+
+          <S.AddCartButton type="button" title="Adicionar ao carrinho">
+            <ShoppingCartSimple size={22} weight="fill" />
+          </S.AddCartButton>
+        </div>
       </S.CardFooter>
     </S.CoffeeCardContainer>
   )
