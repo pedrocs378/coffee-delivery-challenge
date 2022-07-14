@@ -1,10 +1,45 @@
+import { useMemo } from 'react'
 import { CurrencyDollar, MapPinLine } from 'phosphor-react'
+
+import { useCart } from '../../contexts/CartContext'
 
 import { defaultTheme } from '../../styles/themes/default'
 
 import * as S from './styles'
 
+const DELIVERY_VALUE = 3.5
+
+const formatPrice = (value: number) => {
+  return value.toLocaleString('pt-BR', {
+    style: 'currency',
+    currency: 'BRL',
+    minimumFractionDigits: 2,
+    maximumFractionDigits: 2,
+  })
+}
+
 export function Checkout() {
+  const { cartItems } = useCart()
+
+  const cartDetails = useMemo(() => {
+    const totalItems = cartItems.reduce((total, item) => {
+      return total + item.coffee.price * item.amount
+    }, 0)
+
+    const deliveryValue = DELIVERY_VALUE
+    const totalValue = totalItems + deliveryValue
+
+    const formattedTotalItems = formatPrice(totalItems)
+    const formattedDeliveryValue = formatPrice(deliveryValue)
+    const formattedTotalValue = formatPrice(totalValue)
+
+    return {
+      formattedTotalItems,
+      formattedDeliveryValue,
+      formattedTotalValue,
+    }
+  }, [cartItems])
+
   return (
     <S.CheckoutContainer>
       <S.CompleteOrderSection>
@@ -44,15 +79,15 @@ export function Checkout() {
           <S.CartDetails>
             <S.CartDefailtRow>
               <span>Total de itens</span>
-              <span>R$ 29,70</span>
+              <span>{cartDetails.formattedTotalItems}</span>
             </S.CartDefailtRow>
             <S.CartDefailtRow>
               <span>Entrega</span>
-              <span>R$ 3,50</span>
+              <span>{cartDetails.formattedDeliveryValue}</span>
             </S.CartDefailtRow>
             <S.CartDefailtRow isTotal>
               <span>Total</span>
-              <span>R$ 33,20</span>
+              <span>{cartDetails.formattedTotalValue}</span>
             </S.CartDefailtRow>
           </S.CartDetails>
 
