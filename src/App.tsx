@@ -1,19 +1,27 @@
-import { ThemeProvider } from 'styled-components'
 import { BrowserRouter } from 'react-router-dom'
+import { QueryClient, QueryClientProvider } from 'react-query'
+import { ReactQueryDevtools } from 'react-query/devtools'
+import { ThemeProvider } from 'styled-components'
 
 import { Router } from './Router'
 
 import { defaultTheme } from './styles/themes/default'
 import { GlobalStyle } from './styles/global'
 
+const queryClient = new QueryClient()
+
 function App() {
   return (
     <ThemeProvider theme={defaultTheme}>
-      <BrowserRouter>
-        <Router />
+      <QueryClientProvider client={queryClient}>
+        <BrowserRouter>
+          <Router />
 
-        <GlobalStyle />
-      </BrowserRouter>
+          <GlobalStyle />
+        </BrowserRouter>
+
+        <ReactQueryDevtools />
+      </QueryClientProvider>
     </ThemeProvider>
   )
 }
