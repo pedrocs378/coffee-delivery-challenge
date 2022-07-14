@@ -5,6 +5,8 @@ import { MapPin, ShoppingCart } from 'phosphor-react'
 
 import { positionApi } from '../../services/positionApi'
 
+import { useCart } from '../../contexts/CartContext'
+
 import { Logo } from '../Logo'
 
 import { defaultTheme } from '../../styles/themes/default'
@@ -56,6 +58,8 @@ export function Header() {
     },
   )
 
+  const { cartItems } = useCart()
+
   return (
     <S.HeaderContainer>
       <Link to="/">
@@ -80,6 +84,10 @@ export function Header() {
         </S.LocationBadge>
 
         <S.CartLink to="/checkout" title="Carrinho">
+          {!!cartItems.length && (
+            <S.QuantityItemsBadge>{cartItems.length}</S.QuantityItemsBadge>
+          )}
+
           <ShoppingCart size={22} weight="fill" />
         </S.CartLink>
       </div>

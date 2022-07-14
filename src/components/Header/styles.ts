@@ -34,6 +34,7 @@ export const LocationBadge = styled.div`
 `
 
 export const CartLink = styled(Link)`
+  position: relative;
   height: 2.375rem;
   width: 2.375rem;
 
@@ -45,4 +46,22 @@ export const CartLink = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
+`
+
+export const QuantityItemsBadge = styled.span`
+  position: absolute;
+  top: -0.625rem;
+  right: -0.625rem;
+
+  height: 1.25rem;
+  width: 1.25rem;
+  border-radius: 50%;
+  font-size: ${({ theme }) => theme.fontSizes.xs};
+
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  background-color: ${({ theme }) => theme.colors['yellow-700']};
+  color: ${({ theme }) => theme.colors.white};
 `
