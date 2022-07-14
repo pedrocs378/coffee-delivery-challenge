@@ -19,4 +19,8 @@ export const GlobalStyle = createGlobalStyle`
     font-weight: ${({ theme }) => theme.fontWeights.regular};
     font-size: ${({ theme }) => theme.fontSizes.md};
   }
+
+  button {
+    cursor: pointer;
+  }
 `

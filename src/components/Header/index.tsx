@@ -79,7 +79,7 @@ export function Header() {
           )}
         </S.LocationBadge>
 
-        <S.CartLink to="/checkout">
+        <S.CartLink to="/checkout" title="Carrinho">
           <ShoppingCart size={22} weight="fill" />
         </S.CartLink>
       </div>

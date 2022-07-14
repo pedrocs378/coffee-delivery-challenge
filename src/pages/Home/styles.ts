@@ -80,3 +80,11 @@ export const OurCoffeesContainer = styled(BaseSection)`
     font-weight: ${({ theme }) => theme.fontWeights.extraBold};
   }
 `
+
+export const CoffeesList = styled.div`
+  margin-top: 3.375rem;
+
+  display: flex;
+  flex-wrap: wrap;
+  gap: 2.5rem 2rem;
+`

@@ -1,0 +1,12 @@
+query Coffees {
+  coffees {
+    slug
+    name
+    description
+    price
+    image {
+      url
+    }
+    types
+  }
+}

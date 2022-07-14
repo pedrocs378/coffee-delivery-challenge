@@ -1,10 +1,34 @@
+import { useMemo } from 'react'
 import { Coffee, Package, ShoppingCart, Timer } from 'phosphor-react'
+
+import { CoffeeCard } from '../../components/CoffeeCard'
+
+import { useCoffeesQuery } from '../../graphql/generated'
 
 import coffee from '../../assets/coffee.png'
 
 import * as S from './styles'
 
 export function Home() {
+  const { data } = useCoffeesQuery()
+
+  console.log(data?.coffees)
+
+  const coffees = useMemo(() => {
+    if (!data?.coffees) return []
+
+    return data?.coffees.map((coffee) => {
+      return {
+        ...coffee,
+        formattedPrice: coffee.price.toLocaleString('pt-BR', {
+          style: 'decimal',
+          minimumFractionDigits: 2,
+          maximumFractionDigits: 2,
+        }),
+      }
+    })
+  }, [data?.coffees])
+
   return (
     <S.HomeContainer>
       <S.CoffeeDetailsContainer>
@@ -48,6 +72,21 @@ export function Home() {
 
       <S.OurCoffeesContainer>
         <strong>Nossos cafés</strong>
+
+        <S.CoffeesList>
+          {coffees.map((coffee) => {
+            return (
+              <CoffeeCard
+                key={coffee.slug}
+                name={coffee.name}
+                description={coffee.description ?? undefined}
+                types={coffee.types}
+                imageUrl={coffee.image?.url}
+                price={coffee.formattedPrice}
+              />
+            )
+          })}
+        </S.CoffeesList>
       </S.OurCoffeesContainer>
     </S.HomeContainer>
   )

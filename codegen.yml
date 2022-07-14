@@ -1,6 +1,6 @@
 schema: https://api-sa-east-1.hygraph.com/v2/cl5k9tnct2p0y01uj71y14aa2/master
 
-documents: './src/graphql/**/*.graphql'
+documents: './src/graphql/**/*.gql'
 
 generates:
   ./src/graphql/generated.ts:
