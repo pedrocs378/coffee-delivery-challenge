@@ -3529,7 +3529,7 @@ export type CoffeesQuery = { __typename?: 'Query', coffees: Array<{ __typename?:
 
 export const CoffeesDocument = gql`
     query Coffees {
-  coffees {
+  coffees(first: 20) {
     slug
     name
     description

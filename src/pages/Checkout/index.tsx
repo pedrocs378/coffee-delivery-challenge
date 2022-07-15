@@ -3,6 +3,8 @@ import { CurrencyDollar, MapPinLine, Trash } from 'phosphor-react'
 
 import { useCart } from '../../contexts/CartContext'
 
+import { CartItemQuantity } from '../../components/CoffeeQuantity'
+
 import { defaultTheme } from '../../styles/themes/default'
 
 import * as S from './styles'
@@ -17,7 +19,7 @@ const formatPrice = (value: number) => {
 }
 
 export function Checkout() {
-  const { cart, removeItemFromCart } = useCart()
+  const { cart, removeItemFromCart, changeItemAmount } = useCart()
 
   const cartDetails = useMemo(() => {
     const formattedTotalItems = formatPrice(cart.totalItemsValue)
@@ -83,15 +85,24 @@ export function Checkout() {
                       <div>
                         <span>{cartItem.coffee.name}</span>
 
-                        <S.RemoveButton
-                          type="button"
-                          onClick={() =>
-                            removeItemFromCart(cartItem.coffee.slug)
-                          }
-                        >
-                          <Trash size={16} />
-                          Remover
-                        </S.RemoveButton>
+                        <div>
+                          <CartItemQuantity
+                            value={cartItem.amount}
+                            onChange={(operation) =>
+                              changeItemAmount(cartItem.coffee.slug, operation)
+                            }
+                          />
+
+                          <S.RemoveButton
+                            type="button"
+                            onClick={() =>
+                              removeItemFromCart(cartItem.coffee.slug)
+                            }
+                          >
+                            <Trash size={16} />
+                            Remover
+                          </S.RemoveButton>
+                        </div>
                       </div>
                     </S.CartItemDetails>
 

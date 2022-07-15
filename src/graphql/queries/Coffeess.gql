@@ -1,5 +1,5 @@
 query Coffees {
-  coffees {
+  coffees(first: 20) {
     slug
     name
     description

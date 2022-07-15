@@ -26,7 +26,7 @@ type Cart = {
 }
 
 type CartAction = {
-  type: 'ADD_ITEM' | 'REMOVE_ITEM'
+  type: 'ADD_ITEM' | 'REMOVE_ITEM' | 'INCREASE_AMOUNT' | 'DECREASE_AMOUNT'
   payload: {
     item?: CartItem
     coffeeSlug?: string
@@ -38,6 +38,10 @@ type CartContextData = {
 
   addNewItemToCart: (coffee: Coffee, amount: number) => void
   removeItemFromCart: (coffeeSlug: string) => void
+  changeItemAmount: (
+    coffeeSlug: string,
+    operation: 'increase' | 'decrease',
+  ) => void
 }
 
 type CartProviderProps = {
@@ -92,6 +96,67 @@ export function CartProvider({ children }: CartProviderProps) {
 
           return newState
         }
+        case 'INCREASE_AMOUNT': {
+          const coffeeSlug = action.payload.coffeeSlug
+
+          if (!coffeeSlug) return state
+
+          const updatedCartItems = state.items.map((cartItem) => {
+            if (cartItem.coffee.slug === coffeeSlug) {
+              return {
+                coffee: cartItem.coffee,
+                amount: cartItem.amount + 1,
+              }
+            }
+
+            return cartItem
+          })
+
+          const totalItemsValue = updatedCartItems.reduce((total, item) => {
+            return total + item.coffee.price * item.amount
+          }, 0)
+          const deliveryValue = updatedCartItems.length ? 3.5 : 0
+
+          const newState: Cart = {
+            items: updatedCartItems,
+            deliveryValue,
+            totalItemsValue,
+            totalValue: totalItemsValue + deliveryValue,
+          }
+
+          return newState
+        }
+        case 'DECREASE_AMOUNT': {
+          const coffeeSlug = action.payload.coffeeSlug
+
+          if (!coffeeSlug) return state
+
+          const updatedCartItems = state.items.map((cartItem) => {
+            if (cartItem.coffee.slug === coffeeSlug) {
+              return {
+                coffee: cartItem.coffee,
+                amount:
+                  cartItem.amount > 1 ? cartItem.amount - 1 : cartItem.amount,
+              }
+            }
+
+            return cartItem
+          })
+
+          const totalItemsValue = updatedCartItems.reduce((total, item) => {
+            return total + item.coffee.price * item.amount
+          }, 0)
+          const deliveryValue = updatedCartItems.length ? 3.5 : 0
+
+          const newState: Cart = {
+            items: updatedCartItems,
+            deliveryValue,
+            totalItemsValue,
+            totalValue: totalItemsValue + deliveryValue,
+          }
+
+          return newState
+        }
         default:
           return state
       }
@@ -125,13 +190,26 @@ export function CartProvider({ children }: CartProviderProps) {
     })
   }, [])
 
+  const changeItemAmount = useCallback(
+    (coffeeSlug: string, operation: 'increase' | 'decrease') => {
+      dispatch({
+        type: operation === 'increase' ? 'INCREASE_AMOUNT' : 'DECREASE_AMOUNT',
+        payload: {
+          coffeeSlug,
+        },
+      })
+    },
+    [],
+  )
+
   const valueMemo: CartContextData = useMemo(() => {
     return {
       cart,
       addNewItemToCart,
       removeItemFromCart,
+      changeItemAmount,
     }
-  }, [addNewItemToCart, removeItemFromCart, cart])
+  }, [addNewItemToCart, removeItemFromCart, changeItemAmount, cart])
 
   return (
     <CartContext.Provider value={valueMemo}>{children}</CartContext.Provider>

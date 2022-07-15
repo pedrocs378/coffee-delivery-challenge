@@ -1,8 +1,10 @@
 import { memo, useCallback, useState } from 'react'
-import { Minus, Plus, ShoppingCartSimple } from 'phosphor-react'
+import { ShoppingCartSimple } from 'phosphor-react'
 import lodash from 'lodash'
 
 import { CoffeeType } from '../../graphql/generated'
+
+import { CartItemQuantity } from '../CoffeeQuantity'
 
 import * as S from './styles'
 
@@ -74,23 +76,10 @@ function CoffeeCardComponent({ coffee, onAddToCardClick }: CoffeeCardProps) {
         </S.CoffeePrice>
 
         <div>
-          <S.CoffeeQuantityContainer>
-            <button
-              type="button"
-              title="Diminuir"
-              onClick={() => handleChangeCoffeeAmount('decrease')}
-            >
-              <Minus size={14} weight="bold" />
-            </button>
-            <span>{coffeeAmount}</span>
-            <button
-              type="button"
-              title="Aumentar"
-              onClick={() => handleChangeCoffeeAmount('increase')}
-            >
-              <Plus size={14} weight="bold" />
-            </button>
-          </S.CoffeeQuantityContainer>
+          <CartItemQuantity
+            value={coffeeAmount}
+            onChange={handleChangeCoffeeAmount}
+          />
 
           <S.AddCartButton
             type="button"

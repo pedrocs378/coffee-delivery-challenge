@@ -92,6 +92,12 @@ export const CartItemDetails = styled.div`
     display: flex;
     flex-direction: column;
     gap: 0.5rem;
+
+    > div {
+      height: 2rem;
+      display: flex;
+      gap: 0.5rem;
+    }
   }
 `
 
