@@ -23,6 +23,8 @@ export const GlobalStyle = createGlobalStyle`
     font-family: 'Roboto', sans-serif;
     font-weight: ${({ theme }) => theme.fontWeights.regular};
     font-size: ${({ theme }) => theme.fontSizes.md};
+
+    color: ${({ theme }) => theme.colors['gray-700']};
   }
 
   button {

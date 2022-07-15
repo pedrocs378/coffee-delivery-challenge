@@ -19,7 +19,13 @@ export function Home() {
 
   const handleAddCoffeeToCart = useCallback(
     (coffee: typeof coffees[0], amount: number) => {
-      addNewItemToCart(coffee, amount)
+      addNewItemToCart(
+        {
+          ...coffee,
+          imageUrl: coffee.image?.url,
+        },
+        amount,
+      )
 
       toast.success(`${amount}x ${coffee.name} adicionado`)
     },

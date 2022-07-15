@@ -58,7 +58,7 @@ export function Header() {
     },
   )
 
-  const { cartItems } = useCart()
+  const { cart } = useCart()
 
   return (
     <S.HeaderContainer>
@@ -84,8 +84,8 @@ export function Header() {
         </S.LocationBadge>
 
         <S.CartLink to="/checkout" title="Carrinho">
-          {!!cartItems.length && (
-            <S.QuantityItemsBadge>{cartItems.length}</S.QuantityItemsBadge>
+          {!!cart.items.length && (
+            <S.QuantityItemsBadge>{cart.items.length}</S.QuantityItemsBadge>
           )}
 
           <ShoppingCart size={22} weight="fill" />

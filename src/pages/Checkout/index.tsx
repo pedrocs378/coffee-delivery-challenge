@@ -1,13 +1,11 @@
-import { useMemo } from 'react'
-import { CurrencyDollar, MapPinLine } from 'phosphor-react'
+import { Fragment, useMemo } from 'react'
+import { CurrencyDollar, MapPinLine, Trash } from 'phosphor-react'
 
 import { useCart } from '../../contexts/CartContext'
 
 import { defaultTheme } from '../../styles/themes/default'
 
 import * as S from './styles'
-
-const DELIVERY_VALUE = 3.5
 
 const formatPrice = (value: number) => {
   return value.toLocaleString('pt-BR', {
@@ -19,26 +17,19 @@ const formatPrice = (value: number) => {
 }
 
 export function Checkout() {
-  const { cartItems } = useCart()
+  const { cart, removeItemFromCart } = useCart()
 
   const cartDetails = useMemo(() => {
-    const totalItems = cartItems.reduce((total, item) => {
-      return total + item.coffee.price * item.amount
-    }, 0)
-
-    const deliveryValue = DELIVERY_VALUE
-    const totalValue = totalItems + deliveryValue
-
-    const formattedTotalItems = formatPrice(totalItems)
-    const formattedDeliveryValue = formatPrice(deliveryValue)
-    const formattedTotalValue = formatPrice(totalValue)
+    const formattedTotalItems = formatPrice(cart.totalItemsValue)
+    const formattedDeliveryValue = formatPrice(cart.deliveryValue)
+    const formattedTotalValue = formatPrice(cart.totalValue)
 
     return {
       formattedTotalItems,
       formattedDeliveryValue,
       formattedTotalValue,
     }
-  }, [cartItems])
+  }, [cart])
 
   return (
     <S.CheckoutContainer>
@@ -76,20 +67,59 @@ export function Checkout() {
         <strong>Cafés selecionados</strong>
 
         <S.SelectedCoffeesCard>
-          <S.CartDetails>
-            <S.CartDefailtRow>
+          <S.CartItems>
+            {cart.items.map((cartItem) => {
+              return (
+                <Fragment key={cartItem.coffee.slug}>
+                  <S.CartItem>
+                    <S.CartItemDetails>
+                      {cartItem.coffee.imageUrl && (
+                        <img
+                          src={cartItem.coffee.imageUrl}
+                          alt={cartItem.coffee.name}
+                        />
+                      )}
+
+                      <div>
+                        <span>{cartItem.coffee.name}</span>
+
+                        <S.RemoveButton
+                          type="button"
+                          onClick={() =>
+                            removeItemFromCart(cartItem.coffee.slug)
+                          }
+                        >
+                          <Trash size={16} />
+                          Remover
+                        </S.RemoveButton>
+                      </div>
+                    </S.CartItemDetails>
+
+                    <span>
+                      {formatPrice(cartItem.coffee.price * cartItem.amount)}
+                    </span>
+                  </S.CartItem>
+
+                  <S.Divider />
+                </Fragment>
+              )
+            })}
+          </S.CartItems>
+
+          <S.CartTotalValues>
+            <S.CartValueRow>
               <span>Total de itens</span>
               <span>{cartDetails.formattedTotalItems}</span>
-            </S.CartDefailtRow>
-            <S.CartDefailtRow>
+            </S.CartValueRow>
+            <S.CartValueRow>
               <span>Entrega</span>
               <span>{cartDetails.formattedDeliveryValue}</span>
-            </S.CartDefailtRow>
-            <S.CartDefailtRow isTotal>
+            </S.CartValueRow>
+            <S.CartValueRow isTotal>
               <span>Total</span>
               <span>{cartDetails.formattedTotalValue}</span>
-            </S.CartDefailtRow>
-          </S.CartDetails>
+            </S.CartValueRow>
+          </S.CartTotalValues>
 
           <S.ConfirmOrderButton type="button">
             Confirmar Pedido
