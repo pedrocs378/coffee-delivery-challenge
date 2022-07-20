@@ -10,16 +10,11 @@ import {
   addNewItemAction,
   changeItemAmountAction,
   removeItemAction,
-} from '../reducers/cart/actions'
+} from '../../reducers/cart/actions'
 
-import { cartReducer } from '../reducers/cart/reducer'
+import { cartReducer } from '../../reducers/cart/reducer'
 
-import {
-  CartItem,
-  CartContextData,
-  CartProviderProps,
-  Coffee,
-} from './CartContext.types'
+import { CartItem, CartContextData, CartProviderProps, Coffee } from './types'
 
 const CartContext = createContext({} as CartContextData)
 

@@ -1,4 +1,4 @@
-import { Coffee } from '../../contexts/CartContext.types'
+import { Coffee } from '../../contexts/CartContext/types'
 
 export enum ActionTypes {
   ADD_ITEM = 'ADD_ITEM',

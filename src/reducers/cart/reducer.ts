@@ -1,4 +1,4 @@
-import { Cart, CartItem } from '../../contexts/CartContext.types'
+import { Cart, CartItem } from '../../contexts/CartContext/types'
 
 import { ActionTypes } from './actions'
 

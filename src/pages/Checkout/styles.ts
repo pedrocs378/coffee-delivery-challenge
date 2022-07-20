@@ -142,6 +142,13 @@ export const PaymentCheckButton = styled.button<PaymentCheckButtonProps>`
   font-size: ${({ theme }) => theme.fontSizes.xs};
   text-transform: uppercase;
 
+  transition: all 0.2s;
+
+  &:hover {
+    background-color: ${({ isChecked, theme }) =>
+      !isChecked && theme.colors['gray-500']};
+  }
+
   svg {
     color: ${({ theme }) => theme.colors['purple-500']};
   }
