@@ -48,6 +48,7 @@ export const defaultTheme = {
   },
   borderRadius: {
     default: '6px',
+    xs: '4px',
     lg: '36px',
     xl: '44px',
   },

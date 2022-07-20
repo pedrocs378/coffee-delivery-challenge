@@ -61,6 +61,56 @@ export const CardHeader = styled.header`
   }
 `
 
+export const AdressInputsContainer = styled.div`
+  margin: 0 -0.375rem;
+  display: flex;
+  gap: 1rem 0;
+  flex-wrap: wrap;
+
+  margin-top: 2rem;
+`
+
+type InputContainerProps = {
+  size: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
+  isOptional?: boolean
+}
+
+export const InputContainer = styled.div<InputContainerProps>`
+  flex: 0 0 auto;
+  padding: 0 0.375rem;
+  width: calc((${({ size }) => size} * 100%) / 12);
+
+  position: relative;
+
+  &::after {
+    content: 'Opcional';
+    position: absolute;
+    display: ${({ isOptional }) => (isOptional ? 'block' : 'none')};
+    right: calc(0.75rem + 0.375rem);
+    top: 50%;
+    transform: translateY(-50%);
+
+    font-size: ${({ theme }) => theme.fontSizes.xs};
+    color: ${({ theme }) => theme.colors['gray-600']};
+    font-style: italic;
+  }
+`
+
+export const AdressInput = styled.input`
+  width: 100%;
+  height: 2.625rem;
+  padding: 0 0.75rem;
+
+  border: 1px solid ${({ theme }) => theme.colors['gray-400']};
+  border-radius: ${({ theme }) => theme.borderRadius.xs};
+
+  background-color: ${({ theme }) => theme.colors['gray-300']};
+
+  &::placeholder {
+    color: ${({ theme }) => theme.colors['gray-600']};
+  }
+`
+
 export const CartItems = styled.div`
   display: flex;
   flex-direction: column;
