@@ -61,7 +61,7 @@ export const CardHeader = styled.header`
   }
 `
 
-export const AdressInputsContainer = styled.div`
+export const AddressInputsContainer = styled.div`
   margin: 0 -0.375rem;
   display: flex;
   gap: 1rem 0;
@@ -96,7 +96,7 @@ export const InputContainer = styled.div<InputContainerProps>`
   }
 `
 
-export const AdressInput = styled.input`
+export const AddressInput = styled.input`
   width: 100%;
   height: 2.625rem;
   padding: 0 0.75rem;
@@ -108,6 +108,42 @@ export const AdressInput = styled.input`
 
   &::placeholder {
     color: ${({ theme }) => theme.colors['gray-600']};
+  }
+`
+
+export const PaymentButtonsContainer = styled.div`
+  margin-top: 2rem;
+
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+`
+
+type PaymentCheckButtonProps = {
+  isChecked?: boolean
+}
+
+export const PaymentCheckButton = styled.button<PaymentCheckButtonProps>`
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+
+  height: 3.1875rem;
+  padding: 0 1rem;
+
+  border: 1px solid
+    ${({ isChecked, theme }) =>
+      isChecked ? theme.colors['purple-500'] : 'transparent'};
+  border-radius: ${({ theme }) => theme.borderRadius.default};
+
+  background-color: ${({ isChecked, theme }) =>
+    isChecked ? theme.colors['purple-300'] : theme.colors['gray-400']};
+  font-size: ${({ theme }) => theme.fontSizes.xs};
+  text-transform: uppercase;
+
+  svg {
+    color: ${({ theme }) => theme.colors['purple-500']};
   }
 `
 

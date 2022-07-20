@@ -10,6 +10,7 @@ export const GlobalStyle = createGlobalStyle`
   :focus {
     outline: 0;
     box-shadow: 0 0 2px 2px ${({ theme }) => theme.colors['purple-500']};
+    transition: all 0.3s;
   }
 
   body {

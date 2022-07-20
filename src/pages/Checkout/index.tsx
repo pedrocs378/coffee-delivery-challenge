@@ -1,5 +1,12 @@
 import { Fragment, useMemo } from 'react'
-import { CurrencyDollar, MapPinLine, Trash } from 'phosphor-react'
+import {
+  Bank,
+  CreditCard,
+  CurrencyDollar,
+  MapPinLine,
+  Money,
+  Trash,
+} from 'phosphor-react'
 
 import { useCart } from '../../contexts/CartContext'
 
@@ -48,29 +55,29 @@ export function Checkout() {
             </div>
           </S.CardHeader>
 
-          <S.AdressInputsContainer>
+          <S.AddressInputsContainer>
             <S.InputContainer size={4}>
-              <S.AdressInput placeholder="CEP" />
+              <S.AddressInput placeholder="CEP" />
             </S.InputContainer>
             <S.InputContainer size={12}>
-              <S.AdressInput placeholder="Rua" />
+              <S.AddressInput placeholder="Rua" />
             </S.InputContainer>
             <S.InputContainer size={4}>
-              <S.AdressInput type="number" placeholder="Número" />
+              <S.AddressInput type="number" placeholder="Número" />
             </S.InputContainer>
             <S.InputContainer size={8} isOptional>
-              <S.AdressInput placeholder="Complemento" />
+              <S.AddressInput placeholder="Complemento" />
             </S.InputContainer>
             <S.InputContainer size={4}>
-              <S.AdressInput placeholder="Bairro" />
+              <S.AddressInput placeholder="Bairro" />
             </S.InputContainer>
             <S.InputContainer size={6}>
-              <S.AdressInput placeholder="Cidade" />
+              <S.AddressInput placeholder="Cidade" />
             </S.InputContainer>
             <S.InputContainer size={2}>
-              <S.AdressInput placeholder="UF" />
+              <S.AddressInput placeholder="UF" />
             </S.InputContainer>
-          </S.AdressInputsContainer>
+          </S.AddressInputsContainer>
         </S.DeliveryAddressCard>
 
         <S.PaymentCard>
@@ -87,6 +94,21 @@ export function Checkout() {
               </p>
             </div>
           </S.CardHeader>
+
+          <S.PaymentButtonsContainer>
+            <S.PaymentCheckButton type="button" isChecked>
+              <CreditCard size={16} />
+              Cartão de Crédito
+            </S.PaymentCheckButton>
+            <S.PaymentCheckButton type="button">
+              <Bank size={16} />
+              Cartão de Débito
+            </S.PaymentCheckButton>
+            <S.PaymentCheckButton type="button">
+              <Money size={16} />
+              Dinheiro
+            </S.PaymentCheckButton>
+          </S.PaymentButtonsContainer>
         </S.PaymentCard>
       </S.CompleteOrderSection>
 
