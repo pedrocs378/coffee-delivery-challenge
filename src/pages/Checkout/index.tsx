@@ -35,7 +35,7 @@ export function Checkout() {
       cep: '',
       street: '',
       number: null,
-      complement: '',
+      complement: undefined,
       neighborhood: '',
       city: '',
       uf: '',
@@ -50,15 +50,15 @@ export function Checkout() {
 
   return (
     <S.CheckoutContainer>
-      <ConfirmedOrder />
+      {/* <ConfirmedOrder /> */}
 
-      {/* <S.CartForm onSubmit={handleSubmit(handleConfirmOrderCart)}>
+      <S.CartForm onSubmit={handleSubmit(handleConfirmOrderCart)}>
         <FormProvider {...cartForm}>
           <CompleteOrder />
 
           <SelectedCoffees />
         </FormProvider>
-      </S.CartForm> */}
+      </S.CartForm>
     </S.CheckoutContainer>
   )
 }

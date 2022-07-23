@@ -6,6 +6,7 @@ export type OrderForm = {
   neighborhood: string
   city: string
   uf: string
+  changeFor?: string
 }
 
 export type PaymentType = 'credit_card' | 'debit_card' | 'cash'

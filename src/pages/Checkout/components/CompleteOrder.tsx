@@ -14,6 +14,8 @@ import { Input } from '../../../components/Input'
 import { PaymentCheckbox } from '../../../components/PaymentCheckbox'
 import { FormGroup } from '../../../components/FormGroup'
 
+import { cepMask, currencyMask } from '../../../helpers/masks'
+
 import { defaultTheme } from '../../../styles/themes/default'
 
 import { CepData, PaymentType, OrderForm } from '../types'
@@ -72,9 +74,12 @@ export function CompleteOrder() {
         <S.AddressInputsContainer>
           <FormGroup size={4} error={errors.cep?.message}>
             <Input
-              {...register('cep')}
+              {...register('cep', {
+                onBlur: handleSearchCep,
+              })}
               placeholder="CEP"
-              onBlur={handleSearchCep}
+              maxLength={9}
+              mask={cepMask}
               isErrored={!!errors.cep}
             />
           </FormGroup>
@@ -157,8 +162,17 @@ export function CompleteOrder() {
 
         <S.ChangeForContainer>
           {checkedPaymentType === 'cash' && (
-            <FormGroup className="change-for" size={4}>
-              <Input placeholder="Troco" />
+            <FormGroup
+              className="change-for"
+              size={4}
+              error={errors.changeFor?.message}
+            >
+              <Input
+                {...register('changeFor')}
+                placeholder="Troco"
+                mask={currencyMask}
+                isErrored={!!errors.changeFor}
+              />
             </FormGroup>
           )}
         </S.ChangeForContainer>
