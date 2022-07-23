@@ -9,8 +9,6 @@ export type OrderForm = {
   changeFor?: string
 }
 
-export type PaymentType = 'credit_card' | 'debit_card' | 'cash'
-
 export type CepData = {
   logradouro: string
   bairro: string

@@ -6,15 +6,25 @@ import {
   useMemo,
   useReducer,
 } from 'react'
+
 import {
   addNewItemAction,
   changeItemAmountAction,
+  changePaymentTypeAction,
   removeItemAction,
 } from '../../reducers/cart/actions'
 
 import { cartReducer } from '../../reducers/cart/reducer'
 
-import { CartItem, CartContextData, CartProviderProps, Coffee } from './types'
+import {
+  CartItem,
+  CartContextData,
+  CartProviderProps,
+  Coffee,
+  PaymentType,
+} from './types'
+
+const CART_STORAGE_KEY = '@coffeeDelivery:cart-1.0.0'
 
 const CartContext = createContext({} as CartContextData)
 
@@ -23,13 +33,14 @@ export function CartProvider({ children }: CartProviderProps) {
     cartReducer,
     {
       items: [] as CartItem[],
+      paymentType: undefined,
       deliveryValue: 0,
       totalItemsValue: 0,
       totalValue: 0,
     },
     (arg) => {
       try {
-        const storagedValue = localStorage.getItem('@coffeeDelivery:cart')
+        const storagedValue = localStorage.getItem(CART_STORAGE_KEY)
 
         if (storagedValue) {
           return JSON.parse(storagedValue)
@@ -57,8 +68,12 @@ export function CartProvider({ children }: CartProviderProps) {
     [],
   )
 
+  const changePaymentType = useCallback((paymentType: PaymentType) => {
+    dispatch(changePaymentTypeAction(paymentType))
+  }, [])
+
   useEffect(() => {
-    localStorage.setItem('@coffeeDelivery:cart', JSON.stringify(cart))
+    localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart))
   }, [cart])
 
   const valueMemo: CartContextData = useMemo(() => {
@@ -66,9 +81,16 @@ export function CartProvider({ children }: CartProviderProps) {
       cart,
       addNewItemToCart,
       removeItemFromCart,
+      changePaymentType,
       changeItemAmount,
     }
-  }, [addNewItemToCart, removeItemFromCart, changeItemAmount, cart])
+  }, [
+    addNewItemToCart,
+    removeItemFromCart,
+    changePaymentType,
+    changeItemAmount,
+    cart,
+  ])
 
   return (
     <CartContext.Provider value={valueMemo}>{children}</CartContext.Provider>

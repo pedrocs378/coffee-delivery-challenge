@@ -1,14 +1,6 @@
-import { Cart, CartItem } from '../../contexts/CartContext/types'
+import { Cart } from '../../contexts/CartContext/types'
 
-import { ActionTypes } from './actions'
-
-type CartAction = {
-  type: keyof typeof ActionTypes
-  payload: {
-    item?: CartItem
-    coffeeSlug?: string
-  }
-}
+import { ActionTypes, CartAction } from './actions'
 
 export function cartReducer(state: Cart, action: CartAction) {
   switch (action.type) {
@@ -23,6 +15,7 @@ export function cartReducer(state: Cart, action: CartAction) {
       const deliveryValue = 3.5
 
       const newState: Cart = {
+        ...state,
         items: newCartItems,
         deliveryValue,
         totalItemsValue,
@@ -46,6 +39,7 @@ export function cartReducer(state: Cart, action: CartAction) {
       const deliveryValue = newCartItems.length ? 3.5 : 0
 
       const newState: Cart = {
+        ...state,
         items: newCartItems,
         deliveryValue,
         totalItemsValue,
@@ -76,6 +70,7 @@ export function cartReducer(state: Cart, action: CartAction) {
       const deliveryValue = updatedCartItems.length ? 3.5 : 0
 
       const newState: Cart = {
+        ...state,
         items: updatedCartItems,
         deliveryValue,
         totalItemsValue,
@@ -106,6 +101,7 @@ export function cartReducer(state: Cart, action: CartAction) {
       const deliveryValue = updatedCartItems.length ? 3.5 : 0
 
       const newState: Cart = {
+        ...state,
         items: updatedCartItems,
         deliveryValue,
         totalItemsValue,
@@ -113,6 +109,16 @@ export function cartReducer(state: Cart, action: CartAction) {
       }
 
       return newState
+    }
+    case ActionTypes.CHANGE_PAYMENT_TYPE: {
+      const paymentType = action.payload.paymentType
+
+      if (!paymentType) return state
+
+      return {
+        ...state,
+        paymentType,
+      }
     }
     default:
       return state

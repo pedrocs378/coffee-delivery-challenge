@@ -9,12 +9,10 @@ import { ConfirmedOrder } from './components/ConfirmedOrder'
 import { OrderForm } from './types'
 
 import * as S from './styles'
+import { useCart } from '../../contexts/CartContext'
 
 const orderFormSchema = yup.object({
-  cep: yup
-    .string()
-    .required('CEP é obrigatório')
-    .max(9, 'Máximo de 9 caracteres'),
+  cep: yup.string().required('CEP é obrigatório').length(9, 'CEP inválido'),
   street: yup.string().required('Rua é obrigatória'),
   number: yup
     .number()
@@ -26,9 +24,12 @@ const orderFormSchema = yup.object({
   neighborhood: yup.string().required('Bairro é obrigatório'),
   city: yup.string().required('Cidade é obrigatória'),
   uf: yup.string().required('Campo vazio').length(2, 'Inválido'),
+  changeFor: yup.string(),
 })
 
 export function Checkout() {
+  const { cart } = useCart()
+
   const cartForm = useForm<OrderForm>({
     resolver: yupResolver(orderFormSchema),
     defaultValues: {
@@ -39,13 +40,19 @@ export function Checkout() {
       neighborhood: '',
       city: '',
       uf: '',
+      changeFor: undefined,
     },
   })
 
-  const { handleSubmit } = cartForm
+  const { handleSubmit, setError } = cartForm
 
   function handleConfirmOrderCart(data: OrderForm) {
-    console.log(data)
+    if (cart.paymentType === 'cash' && !data.changeFor?.trim()) {
+      setError('changeFor', { message: 'Troco é requerido' })
+      console.log('Erro troco', data.changeFor)
+      return
+    }
+    console.log(data.changeFor)
   }
 
   return (

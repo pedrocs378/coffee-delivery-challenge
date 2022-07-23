@@ -1,4 +1,4 @@
-import { useCallback, useState } from 'react'
+import { useCallback } from 'react'
 import { useFormContext } from 'react-hook-form'
 import {
   Bank,
@@ -10,6 +10,8 @@ import {
 
 import { cepApi } from '../../../services/cepApi'
 
+import { useCart } from '../../../contexts/CartContext'
+
 import { Input } from '../../../components/Input'
 import { PaymentCheckbox } from '../../../components/PaymentCheckbox'
 import { FormGroup } from '../../../components/FormGroup'
@@ -18,12 +20,12 @@ import { cepMask, currencyMask } from '../../../helpers/masks'
 
 import { defaultTheme } from '../../../styles/themes/default'
 
-import { CepData, PaymentType, OrderForm } from '../types'
+import { CepData, OrderForm } from '../types'
 
 import * as S from '../styles'
 
 export function CompleteOrder() {
-  const [checkedPaymentType, setCheckedPaymentType] = useState<PaymentType>()
+  const { cart, changePaymentType } = useCart()
 
   const {
     register,
@@ -143,25 +145,25 @@ export function CompleteOrder() {
           <PaymentCheckbox
             icon={CreditCard}
             label="Cartão de Crédito"
-            checked={checkedPaymentType === 'credit_card'}
-            onClick={() => setCheckedPaymentType('credit_card')}
+            checked={cart.paymentType === 'credit_card'}
+            onClick={() => changePaymentType('credit_card')}
           />
           <PaymentCheckbox
             icon={Bank}
             label="Cartão de Débito"
-            checked={checkedPaymentType === 'debit_card'}
-            onClick={() => setCheckedPaymentType('debit_card')}
+            checked={cart.paymentType === 'debit_card'}
+            onClick={() => changePaymentType('debit_card')}
           />
           <PaymentCheckbox
             icon={Money}
             label="Dinheiro"
-            checked={checkedPaymentType === 'cash'}
-            onClick={() => setCheckedPaymentType('cash')}
+            checked={cart.paymentType === 'cash'}
+            onClick={() => changePaymentType('cash')}
           />
         </S.PaymentButtonsContainer>
 
         <S.ChangeForContainer>
-          {checkedPaymentType === 'cash' && (
+          {cart.paymentType === 'cash' && (
             <FormGroup
               className="change-for"
               size={4}

@@ -1,3 +1,5 @@
+export type PaymentType = 'credit_card' | 'debit_card' | 'cash'
+
 export type Coffee = {
   slug: string
   name: string
@@ -12,6 +14,7 @@ export type CartItem = {
 
 export type Cart = {
   items: CartItem[]
+  paymentType: PaymentType | undefined
   totalItemsValue: number
   deliveryValue: number
   totalValue: number
@@ -22,6 +25,7 @@ export type CartContextData = {
 
   addNewItemToCart: (coffee: Coffee, amount: number) => void
   removeItemFromCart: (coffeeSlug: string) => void
+  changePaymentType: (paymentType: PaymentType) => void
   changeItemAmount: (
     coffeeSlug: string,
     operation: 'increase' | 'decrease',
