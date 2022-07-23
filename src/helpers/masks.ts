@@ -23,3 +23,13 @@ export function currencyMask(value: string) {
 
   return 'R$ ' + formatedValue
 }
+
+export function removeCurrencyMask(value: string): number {
+  if (!value?.trim()) return 0
+
+  const normalizedValue = value.replace(/\D/g, '')
+
+  const valueAsNumber = Number(normalizedValue) / 100
+
+  return valueAsNumber
+}

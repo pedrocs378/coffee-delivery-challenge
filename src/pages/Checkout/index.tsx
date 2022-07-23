@@ -2,14 +2,17 @@ import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
+import { useCart } from '../../contexts/CartContext'
+
 import { CompleteOrder } from './components/CompleteOrder'
 import { SelectedCoffees } from './components/SelectedCoffees'
 import { ConfirmedOrder } from './components/ConfirmedOrder'
 
+import { removeCurrencyMask } from '../../helpers/masks'
+
 import { OrderForm } from './types'
 
 import * as S from './styles'
-import { useCart } from '../../contexts/CartContext'
 
 const orderFormSchema = yup.object({
   cep: yup.string().required('CEP é obrigatório').length(9, 'CEP inválido'),
@@ -47,12 +50,23 @@ export function Checkout() {
   const { handleSubmit, setError } = cartForm
 
   function handleConfirmOrderCart(data: OrderForm) {
-    if (cart.paymentType === 'cash' && !data.changeFor?.trim()) {
-      setError('changeFor', { message: 'Troco é requerido' })
-      console.log('Erro troco', data.changeFor)
-      return
+    if (cart.paymentType === 'cash') {
+      if (!data.changeFor?.trim()) {
+        setError('changeFor', { message: 'Troco é requerido' })
+        console.log('Erro troco', data.changeFor)
+        return
+      }
+
+      const changeFor = removeCurrencyMask(data?.changeFor ?? '')
+
+      if (changeFor < cart.totalValue) {
+        setError('changeFor', { message: 'Troco inválido' })
+        console.log('Erro troco', data.changeFor)
+        return
+      }
     }
-    console.log(data.changeFor)
+
+    console.log(data)
   }
 
   return (
