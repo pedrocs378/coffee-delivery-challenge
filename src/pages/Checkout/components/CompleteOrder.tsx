@@ -12,33 +12,13 @@ import { cepApi } from '../../../services/cepApi'
 
 import { Input } from '../../../components/Input'
 import { PaymentCheckbox } from '../../../components/PaymentCheckbox'
+import { FormGroup } from '../../../components/FormGroup'
 
 import { defaultTheme } from '../../../styles/themes/default'
 
 import { CepData, PaymentType, OrderForm } from '../types'
 
 import * as S from '../styles'
-
-type FormGroupProps = {
-  size?: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
-  error?: string
-  isOptional?: boolean
-  children?: React.ReactNode
-}
-
-function FormGroup({
-  size = 12,
-  error,
-  isOptional = false,
-  children,
-}: FormGroupProps) {
-  return (
-    <S.InputContainer size={size} isOptional={isOptional}>
-      {children}
-      {error && <small>{error}</small>}
-    </S.InputContainer>
-  )
-}
 
 export function CompleteOrder() {
   const [checkedPaymentType, setCheckedPaymentType] = useState<PaymentType>()
@@ -177,9 +157,9 @@ export function CompleteOrder() {
 
         <S.ChangeForContainer>
           {checkedPaymentType === 'cash' && (
-            <S.InputContainer className="change-for" size={4}>
+            <FormGroup className="change-for" size={4}>
               <Input placeholder="Troco" />
-            </S.InputContainer>
+            </FormGroup>
           )}
         </S.ChangeForContainer>
       </S.PaymentCard>
