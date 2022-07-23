@@ -8,9 +8,10 @@ import { useCoffeesQuery } from '../../graphql/generated'
 
 import { CoffeeCard } from '../../components/CoffeeCard'
 
-import coffee from '../../assets/coffee.png'
+import coffee from '../../assets/images/coffee.png'
 
 import * as S from './styles'
+import { RoundedIcon } from '../../components/RoundedIcon'
 
 export function Home() {
   const { data } = useCoffeesQuery()
@@ -59,28 +60,19 @@ export function Home() {
 
           <S.DeliveryInfoGrid>
             <S.DeliveryInfoLabel>
-              <S.DeliveryInfoIcon backgroundColor="yellow-700">
-                <ShoppingCart weight="fill" />
-              </S.DeliveryInfoIcon>
+              <RoundedIcon icon={ShoppingCart} bgColor="yellow-700" />
               Compra simples e segura
             </S.DeliveryInfoLabel>
             <S.DeliveryInfoLabel>
-              <S.DeliveryInfoIcon backgroundColor="gray-700">
-                <Package weight="fill" />
-              </S.DeliveryInfoIcon>
+              <RoundedIcon icon={Package} bgColor="gray-700" />
               Embalagem mantém o café intacto
             </S.DeliveryInfoLabel>
             <S.DeliveryInfoLabel>
-              <S.DeliveryInfoIcon backgroundColor="yellow-500">
-                <Timer weight="fill" />
-              </S.DeliveryInfoIcon>
+              <RoundedIcon icon={Timer} bgColor="yellow-500" />
               Entrega rápida e rastreada
             </S.DeliveryInfoLabel>
             <S.DeliveryInfoLabel>
-              <S.DeliveryInfoIcon backgroundColor="purple-500">
-                <Coffee weight="fill" />
-              </S.DeliveryInfoIcon>
-              O Café chega fresquinho até você
+              <RoundedIcon icon={Coffee} />O Café chega fresquinho até você
             </S.DeliveryInfoLabel>
           </S.DeliveryInfoGrid>
         </div>

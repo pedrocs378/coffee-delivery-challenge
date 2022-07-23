@@ -1,7 +1,5 @@
 import styled from 'styled-components'
 
-import { defaultTheme } from '../../styles/themes/default'
-
 export const HomeContainer = styled.main``
 
 const BaseSection = styled.section`
@@ -51,24 +49,6 @@ export const DeliveryInfoLabel = styled.div`
   display: flex;
   align-items: center;
   gap: 0.75rem;
-`
-
-type DeliveryInfoIconProps = {
-  backgroundColor: keyof typeof defaultTheme.colors
-}
-
-export const DeliveryInfoIcon = styled.div<DeliveryInfoIconProps>`
-  height: 2rem;
-  width: 2rem;
-  border-radius: 50%;
-
-  display: flex;
-  align-items: center;
-  justify-content: center;
-
-  background-color: ${({ theme, backgroundColor }) =>
-    theme.colors[backgroundColor]};
-  color: ${({ theme }) => theme.colors.white};
 `
 
 export const OurCoffeesContainer = styled(BaseSection)`

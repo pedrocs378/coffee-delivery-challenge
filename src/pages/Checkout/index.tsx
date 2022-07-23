@@ -4,6 +4,7 @@ import * as yup from 'yup'
 
 import { CompleteOrder } from './components/CompleteOrder'
 import { SelectedCoffees } from './components/SelectedCoffees'
+import { ConfirmedOrder } from './components/ConfirmedOrder'
 
 import { OrderForm } from './types'
 
@@ -48,14 +49,16 @@ export function Checkout() {
   }
 
   return (
-    <S.CheckoutContainer onSubmit={handleSubmit(handleConfirmOrderCart)}>
-      <S.CartForm>
+    <S.CheckoutContainer>
+      <ConfirmedOrder />
+
+      {/* <S.CartForm onSubmit={handleSubmit(handleConfirmOrderCart)}>
         <FormProvider {...cartForm}>
           <CompleteOrder />
 
           <SelectedCoffees />
         </FormProvider>
-      </S.CartForm>
+      </S.CartForm> */}
     </S.CheckoutContainer>
   )
 }
