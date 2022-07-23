@@ -1,6 +1,10 @@
-import styled from 'styled-components'
+import styled, { css } from 'styled-components'
 
-export const Input = styled.input`
+type InputProps = {
+  isErrored?: boolean
+}
+
+export const Input = styled.input<InputProps>`
   width: 100%;
   height: 2.625rem;
   padding: 0 0.75rem;
@@ -13,4 +17,15 @@ export const Input = styled.input`
   &::placeholder {
     color: ${({ theme }) => theme.colors['gray-600']};
   }
+
+  &:focus {
+    box-shadow: none;
+    border-color: ${({ theme }) => theme.colors['yellow-700']};
+  }
+
+  ${({ theme, isErrored }) =>
+    isErrored &&
+    css`
+      border-color: ${theme.colors['red-500']} !important;
+    `}
 `

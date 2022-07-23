@@ -1,11 +1,13 @@
 import styled, { keyframes } from 'styled-components'
 
 export const CheckoutContainer = styled.main`
+  margin-top: 2.5rem;
+`
+
+export const CartForm = styled.form`
   display: flex;
   align-items: flex-start;
   gap: 2rem;
-
-  margin-top: 2.5rem;
 `
 
 const BaseSection = styled.section`
@@ -92,7 +94,8 @@ export const InputContainer = styled.div<InputContainerProps>`
   width: calc((${({ size }) => size} * 100%) / 12);
 
   display: flex;
-  align-items: center;
+  flex-direction: column;
+  gap: 0.25rem;
 
   &.change-for {
     animation: ${chageForKeyframes} 500ms ease-out;
@@ -105,12 +108,17 @@ export const InputContainer = styled.div<InputContainerProps>`
     position: absolute;
     display: ${({ isOptional }) => (isOptional ? 'block' : 'none')};
     right: calc(0.75rem + 0.375rem);
-    top: 50%;
+    top: calc(2.625rem / 2);
     transform: translateY(-50%);
 
     font-size: ${({ theme }) => theme.fontSizes.xs};
     color: ${({ theme }) => theme.colors['gray-600']};
     font-style: italic;
+  }
+
+  > small {
+    font-size: ${({ theme }) => theme.fontSizes.xs};
+    color: ${({ theme }) => theme.colors['red-500']};
   }
 `
 

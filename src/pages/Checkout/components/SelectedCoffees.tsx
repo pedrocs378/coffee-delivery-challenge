@@ -103,7 +103,7 @@ export function SelectedCoffees() {
           </S.CartValueRow>
         </S.CartTotalValues>
 
-        <S.ConfirmOrderButton type="button" disabled={cart.totalValue <= 0}>
+        <S.ConfirmOrderButton type="submit" disabled={cart.totalValue <= 0}>
           Confirmar Pedido
         </S.ConfirmOrderButton>
       </S.SelectedCoffeesCard>
