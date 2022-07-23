@@ -7,6 +7,9 @@ import {
   Money,
 } from 'phosphor-react'
 
+import { Input } from '../../../components/Input'
+import { PaymentCheckbox } from '../../../components/PaymentCheckbox'
+
 import { defaultTheme } from '../../../styles/themes/default'
 
 import * as S from '../styles'
@@ -32,25 +35,25 @@ export function CompleteOrder() {
 
         <S.AddressInputsContainer>
           <S.InputContainer size={4}>
-            <S.AddressInput placeholder="CEP" />
+            <Input placeholder="CEP" />
           </S.InputContainer>
           <S.InputContainer size={12}>
-            <S.AddressInput placeholder="Rua" />
+            <Input placeholder="Rua" />
           </S.InputContainer>
           <S.InputContainer size={4}>
-            <S.AddressInput type="number" placeholder="Número" />
+            <Input type="number" placeholder="Número" />
           </S.InputContainer>
           <S.InputContainer size={8} isOptional>
-            <S.AddressInput placeholder="Complemento" />
+            <Input placeholder="Complemento" />
           </S.InputContainer>
           <S.InputContainer size={4}>
-            <S.AddressInput placeholder="Bairro" />
+            <Input placeholder="Bairro" />
           </S.InputContainer>
           <S.InputContainer size={6}>
-            <S.AddressInput placeholder="Cidade" />
+            <Input placeholder="Cidade" />
           </S.InputContainer>
           <S.InputContainer size={2}>
-            <S.AddressInput placeholder="UF" />
+            <Input placeholder="UF" />
           </S.InputContainer>
         </S.AddressInputsContainer>
       </S.DeliveryAddressCard>
@@ -68,31 +71,33 @@ export function CompleteOrder() {
         </S.CardHeader>
 
         <S.PaymentButtonsContainer>
-          <S.PaymentCheckButton
-            type="button"
-            isChecked={checkedPaymentType === 'credit_card'}
+          <PaymentCheckbox
+            icon={CreditCard}
+            label="Cartão de Crédito"
+            checked={checkedPaymentType === 'credit_card'}
             onClick={() => setCheckedPaymentType('credit_card')}
-          >
-            <CreditCard size={16} />
-            Cartão de Crédito
-          </S.PaymentCheckButton>
-          <S.PaymentCheckButton
-            type="button"
-            isChecked={checkedPaymentType === 'debit_card'}
+          />
+          <PaymentCheckbox
+            icon={Bank}
+            label="Cartão de Débito"
+            checked={checkedPaymentType === 'debit_card'}
             onClick={() => setCheckedPaymentType('debit_card')}
-          >
-            <Bank size={16} />
-            Cartão de Débito
-          </S.PaymentCheckButton>
-          <S.PaymentCheckButton
-            type="button"
-            isChecked={checkedPaymentType === 'cash'}
+          />
+          <PaymentCheckbox
+            icon={Money}
+            label="Dinheiro"
+            checked={checkedPaymentType === 'cash'}
             onClick={() => setCheckedPaymentType('cash')}
-          >
-            <Money size={16} />
-            Dinheiro
-          </S.PaymentCheckButton>
+          />
         </S.PaymentButtonsContainer>
+
+        <S.ChangeForContainer>
+          {checkedPaymentType === 'cash' && (
+            <S.InputContainer className="change-for" size={4}>
+              <Input placeholder="Troco" />
+            </S.InputContainer>
+          )}
+        </S.ChangeForContainer>
       </S.PaymentCard>
     </S.CompleteOrderSection>
   )

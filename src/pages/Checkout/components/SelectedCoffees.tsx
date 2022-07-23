@@ -37,51 +37,55 @@ export function SelectedCoffees() {
 
       <S.SelectedCoffeesCard>
         <S.CartItems>
-          {cart.items.map((cartItem) => {
-            return (
-              <Fragment key={cartItem.coffee.slug}>
-                <S.CartItem>
-                  <S.CartItemDetails>
-                    {cartItem.coffee.imageUrl && (
-                      <img
-                        src={cartItem.coffee.imageUrl}
-                        alt={cartItem.coffee.name}
-                      />
-                    )}
-
-                    <div>
-                      <span>{cartItem.coffee.name}</span>
+          {cart.totalValue <= 0 ? (
+            <S.EmptyCart>Nenhum café selecionado ainda</S.EmptyCart>
+          ) : (
+            cart.items.map((cartItem) => {
+              return (
+                <Fragment key={cartItem.coffee.slug}>
+                  <S.CartItem>
+                    <S.CartItemDetails>
+                      {cartItem.coffee.imageUrl && (
+                        <img
+                          src={cartItem.coffee.imageUrl}
+                          alt={cartItem.coffee.name}
+                        />
+                      )}
 
                       <div>
-                        <CartItemQuantity
-                          value={cartItem.amount}
-                          onChange={(operation) =>
-                            changeItemAmount(cartItem.coffee.slug, operation)
-                          }
-                        />
+                        <span>{cartItem.coffee.name}</span>
 
-                        <S.RemoveButton
-                          type="button"
-                          onClick={() =>
-                            removeItemFromCart(cartItem.coffee.slug)
-                          }
-                        >
-                          <Trash size={16} />
-                          Remover
-                        </S.RemoveButton>
+                        <div>
+                          <CartItemQuantity
+                            value={cartItem.amount}
+                            onChange={(operation) =>
+                              changeItemAmount(cartItem.coffee.slug, operation)
+                            }
+                          />
+
+                          <S.RemoveButton
+                            type="button"
+                            onClick={() =>
+                              removeItemFromCart(cartItem.coffee.slug)
+                            }
+                          >
+                            <Trash size={16} />
+                            Remover
+                          </S.RemoveButton>
+                        </div>
                       </div>
-                    </div>
-                  </S.CartItemDetails>
+                    </S.CartItemDetails>
 
-                  <span>
-                    {formatPrice(cartItem.coffee.price * cartItem.amount)}
-                  </span>
-                </S.CartItem>
+                    <span>
+                      {formatPrice(cartItem.coffee.price * cartItem.amount)}
+                    </span>
+                  </S.CartItem>
 
-                <S.Divider />
-              </Fragment>
-            )
-          })}
+                  <S.Divider />
+                </Fragment>
+              )
+            })
+          )}
         </S.CartItems>
 
         <S.CartTotalValues>
@@ -99,7 +103,7 @@ export function SelectedCoffees() {
           </S.CartValueRow>
         </S.CartTotalValues>
 
-        <S.ConfirmOrderButton type="button">
+        <S.ConfirmOrderButton type="button" disabled={cart.totalValue <= 0}>
           Confirmar Pedido
         </S.ConfirmOrderButton>
       </S.SelectedCoffeesCard>

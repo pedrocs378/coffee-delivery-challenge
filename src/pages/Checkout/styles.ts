@@ -1,4 +1,4 @@
-import styled from 'styled-components'
+import styled, { keyframes } from 'styled-components'
 
 export const CheckoutContainer = styled.main`
   display: flex;
@@ -70,6 +70,17 @@ export const AddressInputsContainer = styled.div`
   margin-top: 2rem;
 `
 
+const chageForKeyframes = keyframes`
+  from {
+    opacity: 0;
+    transform: translateY(-20%);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0%);
+  }
+`
+
 type InputContainerProps = {
   size: 1 | 2 | 3 | 4 | 5 | 6 | 7 | 8 | 9 | 10 | 11 | 12
   isOptional?: boolean
@@ -79,6 +90,13 @@ export const InputContainer = styled.div<InputContainerProps>`
   flex: 0 0 auto;
   padding: 0 0.375rem;
   width: calc((${({ size }) => size} * 100%) / 12);
+
+  display: flex;
+  align-items: center;
+
+  &.change-for {
+    animation: ${chageForKeyframes} 500ms ease-out;
+  }
 
   position: relative;
 
@@ -96,21 +114,6 @@ export const InputContainer = styled.div<InputContainerProps>`
   }
 `
 
-export const AddressInput = styled.input`
-  width: 100%;
-  height: 2.625rem;
-  padding: 0 0.75rem;
-
-  border: 1px solid ${({ theme }) => theme.colors['gray-400']};
-  border-radius: ${({ theme }) => theme.borderRadius.xs};
-
-  background-color: ${({ theme }) => theme.colors['gray-300']};
-
-  &::placeholder {
-    color: ${({ theme }) => theme.colors['gray-600']};
-  }
-`
-
 export const PaymentButtonsContainer = styled.div`
   margin-top: 2rem;
 
@@ -119,45 +122,24 @@ export const PaymentButtonsContainer = styled.div`
   gap: 0.75rem;
 `
 
-type PaymentCheckButtonProps = {
-  isChecked?: boolean
-}
-
-export const PaymentCheckButton = styled.button<PaymentCheckButtonProps>`
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  gap: 0.75rem;
-
-  height: 3.1875rem;
-  padding: 0 1rem;
-
-  border: 1px solid
-    ${({ isChecked, theme }) =>
-      isChecked ? theme.colors['purple-500'] : 'transparent'};
-  border-radius: ${({ theme }) => theme.borderRadius.default};
-
-  background-color: ${({ isChecked, theme }) =>
-    isChecked ? theme.colors['purple-300'] : theme.colors['gray-400']};
-  font-size: ${({ theme }) => theme.fontSizes.xs};
-  text-transform: uppercase;
-
-  transition: all 0.2s;
-
-  &:hover {
-    background-color: ${({ isChecked, theme }) =>
-      !isChecked && theme.colors['gray-500']};
-  }
-
-  svg {
-    color: ${({ theme }) => theme.colors['purple-500']};
-  }
+export const ChangeForContainer = styled.div`
+  height: 2.625rem;
+  margin: 0 -0.375rem;
+  margin-top: 1rem;
 `
 
 export const CartItems = styled.div`
   display: flex;
   flex-direction: column;
   gap: 1.5rem;
+`
+
+export const EmptyCart = styled.p`
+  text-align: center;
+  font-size: ${({ theme }) => theme.fontSizes.sm};
+  color: ${({ theme }) => theme.colors['gray-600']};
+
+  margin: 1rem 0;
 `
 
 export const CartItem = styled.div`
@@ -277,7 +259,12 @@ export const ConfirmOrderButton = styled.button`
 
   transition: background-color 0.2s;
 
-  &:hover {
+  &:not(:disabled):hover {
     background-color: ${({ theme }) => theme.colors['yellow-700']};
+  }
+
+  &:disabled {
+    background-color: ${({ theme }) => theme.colors['gray-500']};
+    cursor: not-allowed;
   }
 `

@@ -46,6 +46,12 @@ export const CartLink = styled(Link)`
   display: flex;
   align-items: center;
   justify-content: center;
+
+  transition: all 0.2s;
+
+  &:hover {
+    opacity: 0.8;
+  }
 `
 
 export const QuantityItemsBadge = styled.span`
