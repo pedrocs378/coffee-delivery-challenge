@@ -1,3 +1,5 @@
+import { PaymentType } from '../../contexts/CartContext/types'
+
 export type OrderForm = {
   cep: string
   street: string
@@ -6,6 +8,7 @@ export type OrderForm = {
   neighborhood: string
   city: string
   uf: string
+  paymentType: PaymentType | undefined
   changeFor?: string
 }
 

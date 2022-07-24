@@ -10,8 +10,6 @@ import {
 
 import { cepApi } from '../../../services/cepApi'
 
-import { useCart } from '../../../contexts/CartContext'
-
 import { Input } from '../../../components/Input'
 import { PaymentCheckbox } from '../../../components/PaymentCheckbox'
 import { FormGroup } from '../../../components/FormGroup'
@@ -25,8 +23,6 @@ import { CepData, OrderForm } from '../types'
 import * as S from '../styles'
 
 export function CompleteOrder() {
-  const { cart, changePaymentType } = useCart()
-
   const {
     register,
     watch,
@@ -35,6 +31,7 @@ export function CompleteOrder() {
   } = useFormContext<OrderForm>()
 
   const cep = watch('cep')
+  const paymentType = watch('paymentType')
 
   const handleSearchCep = useCallback(async () => {
     if (cep.trim()) {
@@ -86,7 +83,11 @@ export function CompleteOrder() {
             />
           </FormGroup>
           <FormGroup error={errors.street?.message}>
-            <Input {...register('street')} placeholder="Rua" />
+            <Input
+              {...register('street')}
+              placeholder="Rua"
+              isErrored={!!errors.street}
+            />
           </FormGroup>
           <FormGroup size={4} error={errors.number?.message}>
             <Input
@@ -141,29 +142,31 @@ export function CompleteOrder() {
           </div>
         </S.CardHeader>
 
-        <S.PaymentButtonsContainer>
-          <PaymentCheckbox
-            icon={CreditCard}
-            label="Cartão de Crédito"
-            checked={cart.paymentType === 'credit_card'}
-            onClick={() => changePaymentType('credit_card')}
-          />
-          <PaymentCheckbox
-            icon={Bank}
-            label="Cartão de Débito"
-            checked={cart.paymentType === 'debit_card'}
-            onClick={() => changePaymentType('debit_card')}
-          />
-          <PaymentCheckbox
-            icon={Money}
-            label="Dinheiro"
-            checked={cart.paymentType === 'cash'}
-            onClick={() => changePaymentType('cash')}
-          />
-        </S.PaymentButtonsContainer>
+        <FormGroup error={errors.paymentType?.message}>
+          <S.PaymentButtonsContainer>
+            <PaymentCheckbox
+              icon={CreditCard}
+              label="Cartão de Crédito"
+              checked={paymentType === 'credit_card'}
+              onClick={() => setValue('paymentType', 'credit_card')}
+            />
+            <PaymentCheckbox
+              icon={Bank}
+              label="Cartão de Débito"
+              checked={paymentType === 'debit_card'}
+              onClick={() => setValue('paymentType', 'debit_card')}
+            />
+            <PaymentCheckbox
+              icon={Money}
+              label="Dinheiro"
+              checked={paymentType === 'cash'}
+              onClick={() => setValue('paymentType', 'cash')}
+            />
+          </S.PaymentButtonsContainer>
+        </FormGroup>
 
         <S.ChangeForContainer>
-          {cart.paymentType === 'cash' && (
+          {paymentType === 'cash' && (
             <FormGroup
               className="change-for"
               size={4}

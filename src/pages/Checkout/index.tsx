@@ -3,6 +3,7 @@ import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
 
 import { useCart } from '../../contexts/CartContext'
+import { PaymentType } from '../../contexts/CartContext/types'
 
 import { CompleteOrder } from './components/CompleteOrder'
 import { SelectedCoffees } from './components/SelectedCoffees'
@@ -27,7 +28,12 @@ const orderFormSchema = yup.object({
   neighborhood: yup.string().required('Bairro é obrigatório'),
   city: yup.string().required('Cidade é obrigatória'),
   uf: yup.string().required('Campo vazio').length(2, 'Inválido'),
-  changeFor: yup.string(),
+  paymentType: yup.string().required('Forma de pagamento requerido'),
+  changeFor: yup.string().when('paymentType', {
+    is: (val: PaymentType | undefined) => val === 'cash',
+    then: yup.string().required('Troco é requerido'),
+    otherwise: yup.string(),
+  }),
 })
 
 export function Checkout() {
@@ -43,6 +49,7 @@ export function Checkout() {
       neighborhood: '',
       city: '',
       uf: '',
+      paymentType: undefined,
       changeFor: undefined,
     },
   })
@@ -51,12 +58,6 @@ export function Checkout() {
 
   function handleConfirmOrderCart(data: OrderForm) {
     if (cart.paymentType === 'cash') {
-      if (!data.changeFor?.trim()) {
-        setError('changeFor', { message: 'Troco é requerido' })
-        console.log('Erro troco', data.changeFor)
-        return
-      }
-
       const changeFor = removeCurrencyMask(data?.changeFor ?? '')
 
       if (changeFor < cart.totalValue) {

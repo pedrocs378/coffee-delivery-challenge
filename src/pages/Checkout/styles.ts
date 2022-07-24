@@ -82,7 +82,6 @@ export const PaymentButtonsContainer = styled.div`
 
 export const ChangeForContainer = styled.div`
   height: 2.625rem;
-  margin: 0 -0.375rem;
   margin-top: 1rem;
 `
 
