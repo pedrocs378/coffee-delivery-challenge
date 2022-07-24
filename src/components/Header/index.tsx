@@ -1,4 +1,4 @@
-import { useQuery } from 'react-query'
+import { useQuery } from '@tanstack/react-query'
 import Loading from 'react-loading'
 import { Link } from 'react-router-dom'
 import { MapPin, ShoppingCart } from 'phosphor-react'
@@ -51,7 +51,7 @@ const getCurrentLocation = async (): Promise<Location | undefined> => {
 
 export function Header() {
   const { data: locationData, isLoading } = useQuery<Location | undefined>(
-    'currentLocation',
+    ['currentLocation'],
     getCurrentLocation,
     {
       refetchOnWindowFocus: false,
