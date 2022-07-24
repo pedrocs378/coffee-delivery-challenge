@@ -1,12 +1,22 @@
 import { CurrencyDollar, MapPin, Timer } from 'phosphor-react'
 
+import { useCart } from '../../../../contexts/CartContext'
+
 import { RoundedIcon } from '../../../../components/RoundedIcon'
 
 import { MotoboyDelivery } from '../MotoboyDelivery'
 
 import * as S from './styles'
 
+enum PaymentTypes {
+  credit_card = 'Cartão de Crédito',
+  debit_card = 'Cartão de Débito',
+  cash = 'Dinheiro',
+}
+
 export function ConfirmedOrder() {
+  const { cart } = useCart()
+
   return (
     <S.ConfirmedOrderContainer>
       <S.ConfirmedOrder>
@@ -19,9 +29,15 @@ export function ConfirmedOrder() {
 
             <div>
               <p>
-                Entrega em <strong>Rua Lázaro F. Arantes, 39</strong>
+                Entrega em{' '}
+                <strong>
+                  {cart.deliveryAddress?.street}, {cart.deliveryAddress?.number}
+                </strong>
               </p>
-              <p>Jardim Cristal - Valparaíso, SP</p>
+              <p>
+                {cart.deliveryAddress?.neighborhood} -{' '}
+                {cart.deliveryAddress?.city}, {cart.deliveryAddress?.uf}
+              </p>
             </div>
           </S.OrderDetail>
           <S.OrderDetail>
@@ -40,7 +56,9 @@ export function ConfirmedOrder() {
             <div>
               <p>Pagamento na entrega</p>
               <p>
-                <strong>Cartão de Crédito</strong>
+                <strong>
+                  {cart.paymentType && PaymentTypes[cart.paymentType]}
+                </strong>
               </p>
             </div>
           </S.OrderDetail>

@@ -1,3 +1,4 @@
+import { useState } from 'react'
 import { useForm, FormProvider } from 'react-hook-form'
 import { yupResolver } from '@hookform/resolvers/yup'
 import * as yup from 'yup'
@@ -37,7 +38,10 @@ const orderFormSchema = yup.object({
 })
 
 export function Checkout() {
-  const { cart } = useCart()
+  const [isLoading, setIsLoading] = useState(false)
+  const [showConfirmedSuccess, setShowConfirmedSuccess] = useState(false)
+
+  const { cart, addDeliveryAddressAndPayment, clearCartItems } = useCart()
 
   const cartForm = useForm<OrderForm>({
     resolver: yupResolver(orderFormSchema),
@@ -56,31 +60,60 @@ export function Checkout() {
 
   const { handleSubmit, setError } = cartForm
 
-  function handleConfirmOrderCart(data: OrderForm) {
-    if (cart.paymentType === 'cash') {
+  async function handleConfirmOrderCart(data: OrderForm) {
+    if (data.paymentType === 'cash') {
       const changeFor = removeCurrencyMask(data?.changeFor ?? '')
 
       if (changeFor < cart.totalValue) {
         setError('changeFor', { message: 'Troco inválido' })
-        console.log('Erro troco', data.changeFor)
         return
       }
     }
 
-    console.log(data)
+    setIsLoading(true)
+
+    await new Promise((resolve) => setTimeout(resolve, 2000))
+
+    const { cep, street, neighborhood, number, complement, city, uf } = data
+
+    const changeFor =
+      data.paymentType === 'cash'
+        ? removeCurrencyMask(data?.changeFor ?? '')
+        : undefined
+
+    addDeliveryAddressAndPayment({
+      paymentType: data.paymentType ?? 'cash',
+      changeFor,
+      deliveryAddress: {
+        cep,
+        street,
+        neighborhood,
+        number: number ?? 0,
+        complement,
+        city,
+        uf,
+      },
+    })
+
+    clearCartItems()
+
+    setIsLoading(false)
+    setShowConfirmedSuccess(true)
   }
 
   return (
     <S.CheckoutContainer>
-      {/* <ConfirmedOrder /> */}
+      {showConfirmedSuccess ? (
+        <ConfirmedOrder />
+      ) : (
+        <S.CartForm onSubmit={handleSubmit(handleConfirmOrderCart)}>
+          <FormProvider {...cartForm}>
+            <CompleteOrder />
 
-      <S.CartForm onSubmit={handleSubmit(handleConfirmOrderCart)}>
-        <FormProvider {...cartForm}>
-          <CompleteOrder />
-
-          <SelectedCoffees />
-        </FormProvider>
-      </S.CartForm>
+            <SelectedCoffees isLoading={isLoading} />
+          </FormProvider>
+        </S.CartForm>
+      )}
     </S.CheckoutContainer>
   )
 }

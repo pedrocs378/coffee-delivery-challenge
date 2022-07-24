@@ -8,9 +8,11 @@ import {
 } from 'react'
 
 import {
+  addDeliveryAddressAndPaymentAction,
   addNewItemAction,
   changeItemAmountAction,
   changePaymentTypeAction,
+  clearCartItemsAction,
   removeItemAction,
 } from '../../reducers/cart/actions'
 
@@ -22,9 +24,10 @@ import {
   CartProviderProps,
   Coffee,
   PaymentType,
+  AddDeliveryAddressAndPaymentProps,
 } from './types'
 
-const CART_STORAGE_KEY = '@coffeeDelivery:cart-1.0.0'
+const CART_STORAGE_KEY = '@coffeeDelivery:cart-2.0.0'
 
 const CartContext = createContext({} as CartContextData)
 
@@ -34,6 +37,8 @@ export function CartProvider({ children }: CartProviderProps) {
     {
       items: [] as CartItem[],
       paymentType: undefined,
+      deliveryAddress: undefined,
+      changeFor: undefined,
       deliveryValue: 0,
       totalItemsValue: 0,
       totalValue: 0,
@@ -61,6 +66,10 @@ export function CartProvider({ children }: CartProviderProps) {
     dispatch(removeItemAction(coffeeSlug))
   }, [])
 
+  const clearCartItems = useCallback(() => {
+    dispatch(clearCartItemsAction())
+  }, [])
+
   const changeItemAmount = useCallback(
     (coffeeSlug: string, operation: 'increase' | 'decrease') => {
       dispatch(changeItemAmountAction(coffeeSlug, operation))
@@ -72,6 +81,21 @@ export function CartProvider({ children }: CartProviderProps) {
     dispatch(changePaymentTypeAction(paymentType))
   }, [])
 
+  const addDeliveryAddressAndPayment = useCallback(
+    (data: AddDeliveryAddressAndPaymentProps) => {
+      const { deliveryAddress, paymentType, changeFor } = data
+
+      dispatch(
+        addDeliveryAddressAndPaymentAction(
+          deliveryAddress,
+          paymentType,
+          changeFor,
+        ),
+      )
+    },
+    [],
+  )
+
   useEffect(() => {
     localStorage.setItem(CART_STORAGE_KEY, JSON.stringify(cart))
   }, [cart])
@@ -81,14 +105,18 @@ export function CartProvider({ children }: CartProviderProps) {
       cart,
       addNewItemToCart,
       removeItemFromCart,
+      clearCartItems,
       changePaymentType,
       changeItemAmount,
+      addDeliveryAddressAndPayment,
     }
   }, [
     addNewItemToCart,
     removeItemFromCart,
+    clearCartItems,
     changePaymentType,
     changeItemAmount,
+    addDeliveryAddressAndPayment,
     cart,
   ])
 

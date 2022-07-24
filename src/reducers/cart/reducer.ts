@@ -5,9 +5,9 @@ import { ActionTypes, CartAction } from './actions'
 export function cartReducer(state: Cart, action: CartAction) {
   switch (action.type) {
     case ActionTypes.ADD_ITEM: {
-      if (!action.payload.item) return state
+      if (!action.payload?.item) return state
 
-      const newCartItems = [...state.items, action.payload.item]
+      const newCartItems = [...state.items, action.payload?.item]
 
       const totalItemsValue = newCartItems.reduce((total, item) => {
         return total + item.coffee.price * item.amount
@@ -25,7 +25,7 @@ export function cartReducer(state: Cart, action: CartAction) {
       return newState
     }
     case ActionTypes.REMOVE_ITEM: {
-      const coffeeSlug = action.payload.coffeeSlug
+      const coffeeSlug = action.payload?.coffeeSlug
 
       if (!coffeeSlug) return state
 
@@ -48,8 +48,19 @@ export function cartReducer(state: Cart, action: CartAction) {
 
       return newState
     }
+    case ActionTypes.CLEAR_ITEMS: {
+      const newState: Cart = {
+        ...state,
+        items: [],
+        deliveryValue: 0,
+        totalItemsValue: 0,
+        totalValue: 0,
+      }
+
+      return newState
+    }
     case ActionTypes.INCREASE_AMOUNT: {
-      const coffeeSlug = action.payload.coffeeSlug
+      const coffeeSlug = action.payload?.coffeeSlug
 
       if (!coffeeSlug) return state
 
@@ -80,7 +91,7 @@ export function cartReducer(state: Cart, action: CartAction) {
       return newState
     }
     case ActionTypes.DECREASE_AMOUNT: {
-      const coffeeSlug = action.payload.coffeeSlug
+      const coffeeSlug = action.payload?.coffeeSlug
 
       if (!coffeeSlug) return state
 
@@ -111,13 +122,26 @@ export function cartReducer(state: Cart, action: CartAction) {
       return newState
     }
     case ActionTypes.CHANGE_PAYMENT_TYPE: {
-      const paymentType = action.payload.paymentType
+      const paymentType = action.payload?.paymentType
 
       if (!paymentType) return state
 
       return {
         ...state,
         paymentType,
+      }
+    }
+    case ActionTypes.ADD_ADDRESS_AND_PAYMENT: {
+      const deliveryAddress = action.payload?.deliveryAddress
+      const paymentType = action.payload?.paymentType
+
+      if (!deliveryAddress && !paymentType) return state
+
+      return {
+        ...state,
+        deliveryAddress,
+        paymentType,
+        changeFor: action.payload?.changeFor,
       }
     }
     default:

@@ -15,6 +15,7 @@ import * as S from './styles'
 
 type Location = {
   name: string
+  county: string
   region_code: string
 }
 
@@ -77,7 +78,7 @@ export function Header() {
               color={defaultTheme.colors['purple-500']}
             />
           ) : locationData ? (
-            `${locationData.name}, ${locationData.region_code}`
+            `${locationData.county}, ${locationData.region_code}`
           ) : (
             'Não disponível'
           )}

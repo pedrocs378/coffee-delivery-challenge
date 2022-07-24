@@ -12,6 +12,18 @@ export type OrderForm = {
   changeFor?: string
 }
 
+export type ConfirmOrderCartProps = {
+  cep: string
+  street: string
+  number: number
+  complement?: string
+  neighborhood: string
+  city: string
+  uf: string
+  paymentType: PaymentType
+  changeFor?: string
+}
+
 export type CepData = {
   logradouro: string
   bairro: string

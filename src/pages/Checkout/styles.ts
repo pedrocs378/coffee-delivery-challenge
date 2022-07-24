@@ -202,8 +202,12 @@ export const CartValueRow = styled.div<CartDefailtRowProps>`
 export const ConfirmOrderButton = styled.button`
   border: 0;
 
+  display: flex;
+  align-items: center;
+  justify-content: center;
+
+  height: 2.875rem;
   margin-top: 1.5rem;
-  padding: 0.75rem 0;
   text-transform: uppercase;
   border-radius: ${({ theme }) => theme.borderRadius.default};
 

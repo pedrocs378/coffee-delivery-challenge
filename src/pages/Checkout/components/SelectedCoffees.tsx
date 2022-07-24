@@ -1,4 +1,5 @@
 import { Fragment, useMemo } from 'react'
+import Loading from 'react-loading'
 import { Trash } from 'phosphor-react'
 
 import { useCart } from '../../../contexts/CartContext'
@@ -16,7 +17,11 @@ const formatPrice = (value: number) => {
   })
 }
 
-export function SelectedCoffees() {
+type SelectedCoffeesProps = {
+  isLoading?: boolean
+}
+
+export function SelectedCoffees({ isLoading = false }: SelectedCoffeesProps) {
   const { cart, removeItemFromCart, changeItemAmount } = useCart()
 
   const cartDetails = useMemo(() => {
@@ -103,8 +108,15 @@ export function SelectedCoffees() {
           </S.CartValueRow>
         </S.CartTotalValues>
 
-        <S.ConfirmOrderButton type="submit" disabled={cart.totalValue <= 0}>
-          Confirmar Pedido
+        <S.ConfirmOrderButton
+          type="submit"
+          disabled={cart.totalValue <= 0 || isLoading}
+        >
+          {isLoading ? (
+            <Loading type="bubbles" height={20} width={20} />
+          ) : (
+            'Confirmar Pedido'
+          )}
         </S.ConfirmOrderButton>
       </S.SelectedCoffeesCard>
     </S.SelectedCoffeesSection>
